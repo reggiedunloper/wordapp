@@ -77,9 +77,43 @@
         'k'
       ]
 
+      const wordlist = [
+        'apple',
+        'steak',
+        'peers',
+        'stars',
+        'pilot',
+        'clock',
+        'break',
+        'watch',
+      ]
+
+      function checkWords() {
+        const gameList = Array.from(gameboard.children);
+        for(i=0; i < 25; i+=6) {
+
+          const rowItems = gameList.filter((item,index) => {
+            if (getRow(index) === getRow(i)) {
+              return item;
+            }
+          });
+
+          const word = rowItems.map(item => item.innerHTML).join('');
+
+          const correctWords = wordlist.filter((item) => {
+            if (item === word) {
+              return item;
+            }
+          });
+
+            console.log(correctWords);
+        }
+      }
+
       for(let i=0; i < letterArray.length; i++) {
+        randomLetter = letterArray[Math.floor(Math.random()*25)];
         gameitems = gameitems + `
-          <li id="${letterArray[i]}">${letterArray[i]}</li>
+          <li id="${randomLetter}">${randomLetter}</li>
         `;
       }
 
@@ -135,7 +169,6 @@
         if(dir === 'down') {
           for (const item of colItems) {
             indexStart = gameList.indexOf(item);
-            console.log(indexStart);
             if (indexStart+5 >= gameList.length) {
               indexReplace = indexStart+5 - gameList.length;
             } else {
@@ -147,7 +180,6 @@
         if(dir === 'up') {
           for (let i = 0; i < colItems.length; i++) {
             indexStart = gameList.indexOf(colItems[i]);
-            console.log(indexStart);
             if ((indexStart+i-5) < 0) {
               indexReplace = gameList.length - 5 + indexStart;
             } else {
@@ -163,6 +195,8 @@
         }
 
         gameboard.innerHTML = gameitems;
+
+        checkWords();
 
       }
 
