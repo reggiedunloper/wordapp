@@ -71,23 +71,38 @@
         const gameList = Array.from(gameboard.children);
         for(i=0; i < 25; i+=6) {
 
+          // for now, we are separating out rows and cols, because we need to be able to track if the correct word was in a row/column to replace the proper letters
+
           // check rows
           const rowItems = gameList.filter((item,index) => {
             if (getRow(index) === getRow(i)) {
               return item;
             }
           });
-
-          const word = rowItems.map(item => item.innerHTML).join('');
-
-          const correctWords = wordlist.filter((item) => {
-            if (item === word) {
+          // check cols
+          const colItems = gameList.filter((item,index) => {
+            if (getCol(index) === getCol(i)) {
               return item;
             }
           });
 
-          if(correctWords.length) {
-            console.log(correctWords);
+          const wordRow = rowItems.map(item => item.innerHTML).join('');
+          const wordCol = colItems.map(item => item.innerHTML).join('');
+          console.log(wordRow, wordCol);
+
+          const correctWordsR = wordlist.filter((item) => {
+            if (item === wordRow) {
+              return item;
+            }
+          });
+
+          const correctWordsC = wordlist.filter((item) => {
+            if (item === wordCol) {
+              return item;
+            }
+          });
+
+          if(correctWordsR.length) {
             console.log(rowItems);
 
             // update score ..add 1
@@ -118,9 +133,39 @@
 
           }
 
+          if(correctWordsC.length) {
+            console.log(colItems);
+
+            // update score ..add 1
+            updateScore();
+
+            // add win class to winning row/col
+            const updGameList = gameList.map((item) => {
+              if (colItems.includes(item)) {
+                item.classList.add('win');
+              }
+            })
+
+            //set timeout to replace items.
+            setTimeout(() => {
+              for(item of colItems) {
+                item.classList.remove('win');
+              }
+            }, 100)
+
+            setTimeout(() => {
+              for(item of colItems) {
+                randomLetter = letterArray[Math.floor(Math.random()*98)];
+                item.id = randomLetter;
+                item.innerHTML = randomLetter;
+              }
+            checkWords();
+            }, 100)
+
+          }
+
         }
       }
-
 
       function init () {
         for(let i=0; i < 25; i++) {
@@ -131,7 +176,6 @@
         }
 
         gameboard.innerHTML = gameitems;
-
       }
 
       const getCol = (val) => {
