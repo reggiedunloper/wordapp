@@ -2,15 +2,23 @@
   <head>
     <title>App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap" rel="stylesheet">
     <style>
       body {
         margin:0;
         padding:0;
+        background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
+        color:#fff;
+        font-family:"Bowlby One"
       }
       main {
         display:flex;
         justify-content:center;
         align-items:center;
+        flex-direction: column;
         width:100vw;
         height:100vh;
       }
@@ -27,20 +35,28 @@
         width:64px;
         height:64px;
         margin:2px;
-        background:#f0f0f0;
-        border-radius:4px;
+        background:rgba(0,0,0,.5);
+        border-bottom:3px solid rgba(0,0,0,.4);
+        border-radius:8px;
         display:flex;
         justify-content:center;
         align-items:center;
         cursor:pointer;
         text-transform:uppercase;
-        font-size:1.2rem;
+        font-size:2rem;
+        transition:0.3s all;
+      }
+
+      #board li.win {
+        background:#000;
+        color:#fff;
       }
 
     </style>
   </head>
   <body>
     <main>
+      <h1 id="score">0</h1>
       <ul id="board"></ul>
     </main>
 
@@ -51,47 +67,38 @@
 
       const letterArray = [
         'a',
-        'p',
-        'p',
-        'l',
+        'b',
+        'c',
+        'd',
         'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
         's',
         't',
-        'e',
-        'a',
-        'k',
-        'p',
-        'i',
-        'l',
-        'o',
-        't',
+        'u',
+        'v',
         'w',
-        'a',
-        't',
-        'e',
-        'r',
-        'c',
-        'r',
-        'a',
-        'c',
-        'k'
-      ]
-
-      const wordlist = [
-        'apple',
-        'steak',
-        'peers',
-        'stars',
-        'pilot',
-        'clock',
-        'break',
-        'watch',
+        'x',
+        'y',
+        'z'
       ]
 
       function checkWords() {
         const gameList = Array.from(gameboard.children);
         for(i=0; i < 25; i+=6) {
 
+          // check rows
           const rowItems = gameList.filter((item,index) => {
             if (getRow(index) === getRow(i)) {
               return item;
@@ -106,12 +113,43 @@
             }
           });
 
+          if(correctWords.length) {
             console.log(correctWords);
+            console.log(rowItems);
+
+            // update score ..add 1
+            updateScore();
+
+            // add win class to winning row/col
+            const updGameList = gameList.map((item) => {
+              if (rowItems.includes(item)) {
+                item.classList.add('win');
+              }
+            })
+
+            //set timeout to replace items.
+            setTimeout(() => {
+              for(item of rowItems) {
+                item.classList.remove('win');
+              }
+            }, 100)
+
+            setTimeout(() => {
+              for(item of rowItems) {
+                randomLetter = letterArray[Math.floor(Math.random()*25)];
+                item.id = randomLetter;
+                item.innerHTML = randomLetter;
+              }
+            checkWords();
+            }, 100)
+
+          }
+
         }
       }
 
-      for(let i=0; i < letterArray.length; i++) {
-        randomLetter = letterArray[Math.floor(Math.random()*25)];
+      for(let i=0; i < 25; i++) {
+        randomLetter = letterArray[Math.floor(Math.random()*26)];
         gameitems = gameitems + `
           <li id="${randomLetter}">${randomLetter}</li>
         `;
@@ -205,30 +243,20 @@
       const downMove = (event) => getArrayHandler(event, "down");
       const upMove = (event) => getArrayHandler(event, "up");
 
-      // function handleGesure() {
-      //   if (touchendX < touchstartX) {
-      //     getArrayHandler(currTarget, "left");
-      //   }
-      //   if (touchendX > touchstartX) {
-      //     getArrayHandler(currTarget, "right");
-      //   }
-      //   if (touchendY < touchstartY) {
-      //     getArrayHandler(currTarget, "down");
-      //   }
-      //   if (touchendY > touchstartY) {
-      //     getArrayHandler(currTarget, "up");
-      //   }
-      // }
-
-      // gameboard.addEventListener('click', leftMove);
-      // gameboard.addEventListener('click', upMove);
-
       let currTarget = '';
 
     let touchstartX = 0;
     let touchstartY = 0;
     let touchendX = 0;
     let touchendY = 0;
+
+    // init
+    let score = 0;
+
+    function updateScore() {
+      score = score + 1;
+      document.getElementById("score").innerHTML = score;
+    }
 
     function handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY) {
         console.log(currTarget);
@@ -260,7 +288,7 @@
     }, false);
 
 
-
     </script>
+    <script src="wordlist.js"></script>
   </body>
 </html>
