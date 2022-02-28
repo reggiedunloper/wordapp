@@ -1,0 +1,200 @@
+<html>
+  <head>
+    <title>App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        margin:0;
+        padding:0;
+      }
+      main {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        width:100vw;
+        height:100vh;
+      }
+      #board {
+        list-style:none;
+        margin:0;
+        padding:0;
+        display:flex;
+        flex-wrap:wrap;
+        width:350px;
+      }
+
+      #board li {
+        width:64px;
+        height:64px;
+        margin:2px;
+        background:#f0f0f0;
+        border-radius:4px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        cursor:pointer;
+      }
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <ul id="board"></ul>
+    </main>
+
+    <script>
+      const gameboard = document.getElementById('board');
+
+      let gameitems = '';
+
+      for(let i=1; i <= 25; i++) {
+        gameitems = gameitems + `
+          <li id="${i}">${i}</li>
+        `;
+      }
+
+      gameboard.innerHTML = gameitems;
+
+      const getCol = (val) => {
+        const col = (val % 5) + 1;
+        return col;
+      }
+
+      const getRow = (val) => {
+        const row = Math.floor(val / 5);
+        return row;
+      }
+
+      function arraymove(arr, fromIndex, toIndex) {
+        var element = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, element);
+      }
+
+      const getArrayHandler = (tar,dir) => {
+        console.log(dir);
+        const gameList = Array.from(gameboard.children);
+
+        const col = getCol(gameList.indexOf(tar));
+        const row = getRow(gameList.indexOf(tar));
+
+        const colItems = gameList.filter((item,index) => {
+          if (getCol(index) === col) {
+            return item;
+          }
+        });
+
+        const rowItems = gameList.filter((item,index) => {
+          if (getRow(index) === row) {
+            return item;
+          }
+        });
+
+        let indexReplace = 0;
+        let indexStart = 0;
+        if(dir === 'left') {
+          indexStart = gameList.indexOf(rowItems[0])
+          indexReplace = gameList.indexOf(rowItems[rowItems.length-1])
+          arraymove(gameList,indexStart,indexReplace);
+        }
+        if(dir === 'right') {
+          indexStart = gameList.indexOf(rowItems[rowItems.length-1])
+          indexReplace = gameList.indexOf(rowItems[0])
+          arraymove(gameList,indexStart,indexReplace);
+        }
+        if(dir === 'down') {
+          for (const item of colItems) {
+            indexStart = gameList.indexOf(item);
+            console.log(indexStart);
+            if (indexStart+5 >= gameList.length) {
+              indexReplace = indexStart+5 - gameList.length;
+            } else {
+              indexReplace = indexStart + 5;
+            }
+            arraymove(gameList,indexStart,indexReplace);
+          }
+        }
+        if(dir === 'up') {
+          for (let i = 0; i < colItems.length; i++) {
+            indexStart = gameList.indexOf(colItems[i]);
+            console.log(indexStart);
+            if ((indexStart+i-5) < 0) {
+              indexReplace = gameList.length - 5 + indexStart;
+            } else {
+              indexReplace = indexStart+1 - 5;
+            }
+            arraymove(gameList,indexStart,indexReplace);
+          }
+        }
+
+        let gameitems = '';
+        for(item of gameList) {
+          gameitems = gameitems + `<li id="item.id">${item.innerHTML}</li>`;
+        }
+
+        gameboard.innerHTML = gameitems;
+
+      }
+
+      const leftMove = (event) => getArrayHandler(event, "left");
+      const rightMove = (event) => getArrayHandler(event, "right");
+      const downMove = (event) => getArrayHandler(event, "down");
+      const upMove = (event) => getArrayHandler(event, "up");
+
+      // function handleGesure() {
+      //   if (touchendX < touchstartX) {
+      //     getArrayHandler(currTarget, "left");
+      //   }
+      //   if (touchendX > touchstartX) {
+      //     getArrayHandler(currTarget, "right");
+      //   }
+      //   if (touchendY < touchstartY) {
+      //     getArrayHandler(currTarget, "down");
+      //   }
+      //   if (touchendY > touchstartY) {
+      //     getArrayHandler(currTarget, "up");
+      //   }
+      // }
+
+      // gameboard.addEventListener('click', leftMove);
+      // gameboard.addEventListener('click', upMove);
+
+      let currTarget = '';
+
+    let touchstartX = 0;
+    let touchstartY = 0;
+    let touchendX = 0;
+    let touchendY = 0;
+
+    function handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY) {
+        console.log(currTarget);
+        const delx = touchendX - touchstartX;
+        const dely = touchendY - touchstartY;
+        let dir = ''
+        if(Math.abs(delx) > Math.abs(dely)){
+            if(delx > 0) getArrayHandler(currTarget, "right");
+            else getArrayHandler(currTarget, "left");
+        }
+        if(Math.abs(delx) < Math.abs(dely)){
+            if(dely > 0) getArrayHandler(currTarget, "down");
+            else getArrayHandler(currTarget, "up");
+        }
+    }
+
+    gameboard.addEventListener('touchstart', function(event) {
+        currTarget = event.target;
+        touchstartX = event.changedTouches[0].screenX;
+        touchstartY = event.changedTouches[0].screenY;
+    }, false);
+
+    gameboard.addEventListener('touchend', function(event) {
+        touchendX = event.changedTouches[0].screenX;
+        touchendY = event.changedTouches[0].screenY;
+        handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY)
+    }, false);
+
+
+
+    </script>
+  </body>
+</html>
