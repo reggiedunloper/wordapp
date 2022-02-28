@@ -60,39 +60,12 @@
       <ul id="board"></ul>
     </main>
 
+    <script src="wordlist.js"></script>
+    <script src="letterlist.js"></script>
     <script>
       const gameboard = document.getElementById('board');
 
       let gameitems = '';
-
-      const letterArray = [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'w',
-        'x',
-        'y',
-        'z'
-      ]
 
       function checkWords() {
         const gameList = Array.from(gameboard.children);
@@ -136,7 +109,7 @@
 
             setTimeout(() => {
               for(item of rowItems) {
-                randomLetter = letterArray[Math.floor(Math.random()*25)];
+                randomLetter = letterArray[Math.floor(Math.random()*98)];
                 item.id = randomLetter;
                 item.innerHTML = randomLetter;
               }
@@ -148,14 +121,18 @@
         }
       }
 
-      for(let i=0; i < 25; i++) {
-        randomLetter = letterArray[Math.floor(Math.random()*26)];
-        gameitems = gameitems + `
-          <li id="${randomLetter}">${randomLetter}</li>
-        `;
-      }
 
-      gameboard.innerHTML = gameitems;
+      function init () {
+        for(let i=0; i < 25; i++) {
+          randomLetter = letterArray[Math.floor(Math.random()*98)];
+          gameitems = gameitems + `
+            <li id="${randomLetter}">${randomLetter}</li>
+          `;
+        }
+
+        gameboard.innerHTML = gameitems;
+
+      }
 
       const getCol = (val) => {
         const col = (val % 5) + 1;
@@ -287,8 +264,8 @@
         handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY)
     }, false);
 
+    init();
 
     </script>
-    <script src="wordlist.js"></script>
   </body>
 </html>
