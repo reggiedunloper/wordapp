@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>App</title>
+    <title>Garble</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +20,15 @@
       body.pulser {
         animation: 1s pulsebg infinite;
       }
+
+      h1.title {
+        font-size:4rem;
+        margin:0;
+        letter-spacing:0.2rem;
+        text-transform:uppercase;
+        text-shadow:.2rem .2rem 0rem rgba(0,0,0,.2);
+      }
+
       main {
         display:flex;
         justify-content:center;
@@ -120,6 +129,7 @@
   </head>
   <body>
     <main>
+      <h1 class="title">Garble</h1>
       <h2 id="timer">1:00</h2>
       <h1 id="score">0</h1>
       <ul id="board"></ul>
@@ -252,6 +262,8 @@
       }
 
       function init () {
+
+        document.getElementById("timer").innerHTML = "1:00";
 
         score = 0;
         console.log(score);
