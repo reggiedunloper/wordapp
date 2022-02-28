@@ -5,14 +5,16 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+
     <style>
       body {
         margin:0;
         padding:0;
         background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
         color:#fff;
-        font-family:"Bowlby One"
+        font-family:"VT323";
       }
       main {
         display:flex;
@@ -43,7 +45,7 @@
         align-items:center;
         cursor:pointer;
         text-transform:uppercase;
-        font-size:2rem;
+        font-size:2.5rem;
         transition: 0.25s all;
       }
 
@@ -51,6 +53,7 @@
         animation: 0.25s win ease-out ;
       }
       #timer {display:none;}
+      #highscore {display:none;}
       #score {display:none;}
       button#start {
         display:none;
@@ -88,6 +91,7 @@
       <h2 id="timer">1:00</h2>
       <h1 id="score">0</h1>
       <ul id="board"></ul>
+      <h3 id="highscore" class="show">High Score: <span></span></h3>
       <button onClick="startGame()" id="start" class="show">Start Game</button>
     </main>
 
@@ -118,7 +122,7 @@
 
           const wordRow = rowItems.map(item => item.innerHTML).join('');
           const wordCol = colItems.map(item => item.innerHTML).join('');
-          console.log(wordRow, wordCol);
+          // console.log(wordRow, wordCol);
 
           const correctWordsR = wordlist.filter((item) => {
             if (item === wordRow) {
@@ -210,6 +214,9 @@
       }
 
       function init () {
+
+        score = 0;
+        console.log(score);
 
         let intervalid;
         let timer = 60;
@@ -366,10 +373,22 @@
 
 
     function endGame(intervalID) {
+      console.log(score);
       clearBoard(gameboard);
       stopTimer(intervalID);
+      document.getElementById("score").innerHTML = "Final Score: "+ score;
+
+      //store score in localstorage
+      document.querySelector('#highscore span').innerHTML = setHighScore(score);
+
       document.getElementById("timer").classList.remove('show');
+      document.getElementById("highscore").classList.add('show');
       document.getElementById("start").classList.add('show');
+      // disable new game button for a second before able to retry
+      document.getElementById("start").disabled = true;
+      setTimeout(() => {
+        document.getElementById("start").disabled = false;
+      }, 1000)
     }
 
     function clearBoard(boardid) {
@@ -378,14 +397,31 @@
       }
     }
 
+    function retrieveHighScore() {
+      if (localStorage.getItem('highscore')) {
+        return localStorage.getItem('highscore');
+      }
+      return 0;
+    }
 
+    function setHighScore(score) {
+      if (score > retrieveHighScore()) {
+        localStorage.setItem('highscore', score);
+      }
+      return localStorage.getItem('highscore');
+    }
 
     function startGame() {
+      score = 0;
       document.getElementById("start").classList.remove('show');
+      document.getElementById("highscore").classList.remove('show');
       document.getElementById("timer").classList.add('show');
+      document.getElementById("score").innerHTML = score;
       document.getElementById("score").classList.add('show');
       init();
     }
+
+    document.querySelector('#highscore span').innerHTML = retrieveHighScore();
 
     </script>
   </body>
