@@ -44,20 +44,36 @@
         cursor:pointer;
         text-transform:uppercase;
         font-size:2rem;
-        transition:0.3s all;
+        transition: 0.25s all;
       }
 
       #board li.win {
-        background:#000;
-        color:#fff;
+        animation: 0.25s win ease-out ;
+      }
+
+      button#start {display:none}
+      button#start.show {display:block}
+
+      @keyframes win {
+        from {
+          transform:scale(1.2);
+          background:#000;
+          color:#fff;
+        }
+        to {
+          transform:scale(0);
+        }
+
       }
 
     </style>
   </head>
   <body>
     <main>
+      <h2 id="timer">1:00</h2>
       <h1 id="score">0</h1>
       <ul id="board"></ul>
+      <button onClick="startGame()" id="start" class="show">Start Game</button>
     </main>
 
     <script src="wordlist.js"></script>
@@ -65,7 +81,6 @@
     <script>
       const gameboard = document.getElementById('board');
 
-      let gameitems = '';
 
       function checkWords() {
         const gameList = Array.from(gameboard.children);
@@ -120,7 +135,7 @@
               for(item of rowItems) {
                 item.classList.remove('win');
               }
-            }, 100)
+            }, 250)
 
             setTimeout(() => {
               for(item of rowItems) {
@@ -129,7 +144,7 @@
                 item.innerHTML = randomLetter;
               }
             checkWords();
-            }, 100)
+            }, 250)
 
           }
 
@@ -151,7 +166,7 @@
               for(item of colItems) {
                 item.classList.remove('win');
               }
-            }, 100)
+            }, 250)
 
             setTimeout(() => {
               for(item of colItems) {
@@ -160,14 +175,47 @@
                 item.innerHTML = randomLetter;
               }
             checkWords();
-            }, 100)
+            }, 250)
 
           }
 
         }
       }
 
+      // function countTime(duration) {
+      //   console.log(timer);
+      //   if (timer === 0) {
+      //     endGame();
+      //     return;
+      //   }
+      //   timer = timer - 1;
+      //   document.getElementById("timer").innerHTML = timer;
+      // }
+
+      function startTimer(duration) {
+        let intervalid = setInterval(() => {
+          console.log(duration);
+          if (duration === 0) {
+            endGame(intervalid);
+            return;
+          }
+          duration = duration - 1;
+          document.getElementById("timer").innerHTML = duration;
+        }, 1000);
+      }
+
+      function stopTimer(id) {
+        clearInterval(id)
+      }
+
       function init () {
+
+        let intervalid;
+        let timer = 60;
+        startTimer(timer);
+
+
+      let gameitems = '';
         for(let i=0; i < 25; i++) {
           randomLetter = letterArray[Math.floor(Math.random()*98)];
           gameitems = gameitems + `
@@ -308,7 +356,25 @@
         handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY)
     }, false);
 
-    init();
+
+    function endGame(intervalID) {
+      clearBoard(gameboard);
+      stopTimer(intervalID);
+      document.getElementById("start").classList.add('show');
+    }
+
+    function clearBoard(boardid) {
+      while(boardid.firstChild) {
+        boardid.removeChild(boardid.firstChild);
+      }
+    }
+
+
+
+    function startGame() {
+      document.getElementById("start").classList.remove('show');
+      init();
+    }
 
     </script>
   </body>
