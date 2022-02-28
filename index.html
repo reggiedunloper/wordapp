@@ -133,10 +133,9 @@
           });
 
           if(correctWordsR.length) {
-            console.log(rowItems);
 
             // update score ..add 1
-            updateScore();
+            updateScore(correctWordsR);
 
             // add win class to winning row/col
             const updGameList = gameList.map((item) => {
@@ -164,10 +163,9 @@
           }
 
           if(correctWordsC.length) {
-            console.log(colItems);
 
             // update score ..add 1
-            updateScore();
+            updateScore(correctWordsC);
 
             // add win class to winning row/col
             const updGameList = gameList.map((item) => {
@@ -199,7 +197,6 @@
 
       function startTimer(duration) {
         let intervalid = setInterval(() => {
-          console.log(duration);
           if (duration === 0) {
             endGame(intervalid);
           }
@@ -247,7 +244,6 @@
       }
 
       const getArrayHandler = (tar,dir) => {
-        console.log(dir);
         const gameList = Array.from(gameboard.children);
 
         const col = getCol(gameList.indexOf(tar));
@@ -326,13 +322,21 @@
     // init
     let score = 0;
 
-    function updateScore() {
-      score = score + 1;
+    function updateScore(wordArray) {
+      const word = wordArray[0];
+      const letters = word.split('');
+      letters.forEach(letter => {
+        const point = letterscore.filter((element) => {
+          if (letter === element.letter) {
+            return element;
+          }
+        });
+        score = score + point[0].value;
+      });
       document.getElementById("score").innerHTML = score;
     }
 
     function handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY) {
-        console.log(currTarget);
         const delx = touchendX - touchstartX;
         const dely = touchendY - touchstartY;
         let dir = ''
