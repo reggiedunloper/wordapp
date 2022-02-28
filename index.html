@@ -15,6 +15,10 @@
         background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
         color:#fff;
         font-family:"VT323";
+        transition: 0.25s all;
+      }
+      body.pulser {
+        animation: 1s pulsebg infinite;
       }
       main {
         display:flex;
@@ -52,7 +56,7 @@
       #board li.win {
         animation: 0.25s win ease-out ;
       }
-      #timer {display:none;}
+      #timer {display:none; font-size:3rem;}
       #highscore {display:none;}
       #score {display:none;}
       button#start {
@@ -72,6 +76,10 @@
       }
       .show {display:block !important;}
 
+      #timer.pulser {
+        animation:1s pulse infinite;
+      }
+
       @keyframes win {
         from {
           transform:scale(1.2);
@@ -82,6 +90,30 @@
           transform:scale(0);
         }
 
+      }
+
+      @keyframes pulse {
+        0% {
+          transform:scale(1);
+        }
+        50% {
+          transform:scale(2);
+        }
+        100% {
+          transform:scale(1);
+        }
+      }
+
+      @keyframes pulsebg {
+        0% {
+          background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
+        }
+        50% {
+          background: linear-gradient(0deg, #FC466B 15%, #3F5EFB 100%);
+        }
+        100% {
+          background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
+        }
       }
 
     </style>
@@ -201,7 +233,13 @@
 
       function startTimer(duration) {
         let intervalid = setInterval(() => {
+          if (duration <= 10) {
+            document.getElementById("timer").classList.add('pulser');
+            document.body.classList.add('pulser');
+          }
           if (duration === 0) {
+            document.getElementById("timer").classList.remove('pulser');
+            document.body.classList.remove('pulser');
             endGame(intervalid);
           }
           duration = duration - 1;
