@@ -434,6 +434,7 @@
     let score = 0;
 
     function updateScore(wordArray, multiplier) {
+      let wordscore = 0;
       console.log(multiplier);
       const word = wordArray[0];
       const letters = word.split('');
@@ -443,10 +444,12 @@
             return element;
           }
         });
-        score = score + point[0].value;
+        wordscore = wordscore + point[0].value;
       });
       //multiplier
-      score = score * multiplier;
+      wordscore = wordscore * multiplier;
+      score = score + wordscore;
+      console.log(wordscore);
       document.getElementById("score").innerHTML = score;
     }
 
