@@ -46,22 +46,20 @@ function checkWords() {
         }
       });
 
-      //set timeout to replace items.
-      setTimeout(() => {
-        for (item of rowItems) {
-          item.classList.remove("win");
-        }
-      }, 250);
-
+      // delay new letters added for animation
       setTimeout(() => {
         for (item of rowItems) {
           randomLetter = letterArray[Math.floor(Math.random() * 98)];
-
           item.id = randomLetter;
+          item.classList.remove("win");
           item.innerHTML = randomLetter;
         }
-        checkWords();
       }, 250);
+
+      // check if new letters added creates a word
+      setTimeout(() => {
+        checkWords();
+      }, 300);
     }
 
     if (correctWordsC.length) {
@@ -118,6 +116,7 @@ function stopTimer(id) {
 function init() {
   document.getElementById("timer").innerHTML = "1:00";
 
+  newmultiplier = 1;
   score = 0;
   console.log(score);
 
@@ -241,6 +240,7 @@ function updateScore(wordArray) {
   let wordscore = 0;
   console.log(newmultiplier);
   const word = wordArray[0];
+  console.log(word);
   const letters = word.split("");
   letters.forEach((letter) => {
     const point = letterscore.filter((element) => {
@@ -256,6 +256,7 @@ function updateScore(wordArray) {
   console.log(wordscore);
   document.getElementById("score").innerHTML = score;
   newmultiplier = newmultiplier + 1;
+  document.getElementById("multiplier").innerHTML = `( x${newmultiplier} )`;
 }
 
 function handleGesture(
@@ -312,6 +313,7 @@ function endGame(intervalID) {
   document.getElementById("timer").classList.remove("show");
   document.getElementById("highscore").classList.add("show");
   document.getElementById("start").classList.add("show");
+  document.getElementById("multiplier").innerHTML = '';
   // disable new game button for a second before able to retry
   document.getElementById("start").disabled = true;
   setTimeout(() => {
