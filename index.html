@@ -68,6 +68,10 @@
         background:rgba(102,255,214,0.65);
       }
 
+      #board li.triple {
+        background:rgba(155, 31, 238, 0.75);
+      }
+
       #board li.win {
         animation: 0.25s win ease-out ;
       }
@@ -191,6 +195,9 @@
               if (letter.className === 'double') {
                 multiplier = multiplier * 2;
               }
+              if (letter.className === 'triple') {
+                multiplier = multiplier * 3;
+              }
             });
             // update score ..add 1
             updateScore(correctWordsR, multiplier);
@@ -233,6 +240,9 @@
               if (letter.className === 'double') {
                 multiplier = multiplier * 2;
               }
+              if (letter.className === 'triple') {
+                multiplier = multiplier * 3;
+              }
             });
             // update score ..add 1
             updateScore(correctWordsC, multiplier);
@@ -256,8 +266,12 @@
                 randomLetter = letterArray[Math.floor(Math.random()*98)];
 
                 let multiplerClass = '';
-                if(Math.floor(Math.random()*100) < 5) {
+                let randomNum = Math.floor(Math.random()*100);
+                if(randomNum < 5) {
                   multiplerClass = 'double';
+                }
+                if(randomNum > 85) {
+                  multiplerClass = 'triple';
                 }
                 item.id = randomLetter;
                 item.className = multiplerClass;
@@ -309,8 +323,12 @@
           randomLetter = letterArray[Math.floor(Math.random()*98)];
           // chance of double
           let multiplerClass = '';
-          if(Math.floor(Math.random()*100) < 5) {
+          let randomNum = Math.floor(Math.random()*100);
+          if(randomNum < 5) {
             multiplerClass = 'double';
+          }
+          if(randomNum > 85) {
+            multiplerClass = 'triple';
           }
           gameitems = gameitems + `
             <li id="${randomLetter}" class="${multiplerClass}">${randomLetter}</li>
@@ -416,6 +434,7 @@
     let score = 0;
 
     function updateScore(wordArray, multiplier) {
+      console.log(multiplier);
       const word = wordArray[0];
       const letters = word.split('');
       letters.forEach(letter => {
