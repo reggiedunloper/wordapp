@@ -1,10 +1,8 @@
-const gameboard = document.getElementById('board');
-
+const gameboard = document.getElementById("board");
 
 function checkWords() {
   const gameList = Array.from(gameboard.children);
   for (i = 0; i < 25; i += 6) {
-
     // for now, we are separating out rows and cols, because we need to be able to track if the correct word was in a row/column to replace the proper letters
 
     // check rows
@@ -20,8 +18,8 @@ function checkWords() {
       }
     });
 
-    const wordRow = rowItems.map(item => item.innerHTML).join('');
-    const wordCol = colItems.map(item => item.innerHTML).join('');
+    const wordRow = rowItems.map((item) => item.innerHTML).join("");
+    const wordCol = colItems.map((item) => item.innerHTML).join("");
     // console.log(wordRow, wordCol);
 
     const correctWordsR = wordlist.filter((item) => {
@@ -44,16 +42,16 @@ function checkWords() {
       // add win class to winning row/col
       const updGameList = gameList.map((item) => {
         if (rowItems.includes(item)) {
-          item.classList.add('win');
+          item.classList.add("win");
         }
-      })
+      });
 
       //set timeout to replace items.
       setTimeout(() => {
         for (item of rowItems) {
-          item.classList.remove('win');
+          item.classList.remove("win");
         }
-      }, 250)
+      }, 250);
 
       setTimeout(() => {
         for (item of rowItems) {
@@ -63,8 +61,7 @@ function checkWords() {
           item.innerHTML = randomLetter;
         }
         checkWords();
-      }, 250)
-
+      }, 250);
     }
 
     if (correctWordsC.length) {
@@ -75,16 +72,16 @@ function checkWords() {
       // add win class to winning row/col
       const updGameList = gameList.map((item) => {
         if (colItems.includes(item)) {
-          item.classList.add('win');
+          item.classList.add("win");
         }
-      })
+      });
 
       //set timeout to replace items.
       setTimeout(() => {
         for (item of colItems) {
-          item.classList.remove('win');
+          item.classList.remove("win");
         }
-      }, 250)
+      }, 250);
 
       setTimeout(() => {
         for (item of colItems) {
@@ -93,22 +90,20 @@ function checkWords() {
           item.innerHTML = randomLetter;
         }
         checkWords();
-      }, 250)
-
+      }, 250);
     }
-
   }
 }
 
 function startTimer(duration) {
   let intervalid = setInterval(() => {
     if (duration <= 10) {
-      document.getElementById("timer").classList.add('pulser');
-      document.body.classList.add('pulser');
+      document.getElementById("timer").classList.add("pulser");
+      document.body.classList.add("pulser");
     }
     if (duration === 0) {
-      document.getElementById("timer").classList.remove('pulser');
-      document.body.classList.remove('pulser');
+      document.getElementById("timer").classList.remove("pulser");
+      document.body.classList.remove("pulser");
       endGame(intervalid);
     }
     duration = duration - 1;
@@ -117,11 +112,10 @@ function startTimer(duration) {
 }
 
 function stopTimer(id) {
-  clearInterval(id)
+  clearInterval(id);
 }
 
 function init() {
-
   document.getElementById("timer").innerHTML = "1:00";
 
   score = 0;
@@ -131,13 +125,14 @@ function init() {
   let timer = 60;
   startTimer(timer);
 
-
-  let gameitems = '';
+  let gameitems = "";
   for (let i = 0; i < 25; i++) {
     // get random letter
     randomLetter = letterArray[Math.floor(Math.random() * 98)];
     // chance of double
-    gameitems = gameitems + `
+    gameitems =
+      gameitems +
+      `
         <li id="${randomLetter}">${randomLetter}</li>
       `;
   }
@@ -148,12 +143,12 @@ function init() {
 const getCol = (val) => {
   const col = (val % 5) + 1;
   return col;
-}
+};
 
 const getRow = (val) => {
   const row = Math.floor(val / 5);
   return row;
-}
+};
 
 function arraymove(arr, fromIndex, toIndex) {
   var element = arr[fromIndex];
@@ -181,17 +176,17 @@ const getArrayHandler = (tar, dir) => {
 
   let indexReplace = 0;
   let indexStart = 0;
-  if (dir === 'left') {
-    indexStart = gameList.indexOf(rowItems[0])
-    indexReplace = gameList.indexOf(rowItems[rowItems.length - 1])
+  if (dir === "left") {
+    indexStart = gameList.indexOf(rowItems[0]);
+    indexReplace = gameList.indexOf(rowItems[rowItems.length - 1]);
     arraymove(gameList, indexStart, indexReplace);
   }
-  if (dir === 'right') {
-    indexStart = gameList.indexOf(rowItems[rowItems.length - 1])
-    indexReplace = gameList.indexOf(rowItems[0])
+  if (dir === "right") {
+    indexStart = gameList.indexOf(rowItems[rowItems.length - 1]);
+    indexReplace = gameList.indexOf(rowItems[0]);
     arraymove(gameList, indexStart, indexReplace);
   }
-  if (dir === 'down') {
+  if (dir === "down") {
     for (const item of colItems) {
       indexStart = gameList.indexOf(item);
       if (indexStart + 5 >= gameList.length) {
@@ -202,10 +197,10 @@ const getArrayHandler = (tar, dir) => {
       arraymove(gameList, indexStart, indexReplace);
     }
   }
-  if (dir === 'up') {
+  if (dir === "up") {
     for (let i = 0; i < colItems.length; i++) {
       indexStart = gameList.indexOf(colItems[i]);
-      if ((indexStart + i - 5) < 0) {
+      if (indexStart + i - 5 < 0) {
         indexReplace = gameList.length - 5 + indexStart;
       } else {
         indexReplace = indexStart + 1 - 5;
@@ -214,23 +209,24 @@ const getArrayHandler = (tar, dir) => {
     }
   }
 
-  let gameitems = '';
+  let gameitems = "";
   for (item of gameList) {
-    gameitems = gameitems + `<li id="${item.id}" class="${item.className}">${item.innerHTML}</li>`;
+    gameitems =
+      gameitems +
+      `<li id="${item.id}" class="${item.className}">${item.innerHTML}</li>`;
   }
 
   gameboard.innerHTML = gameitems;
 
   checkWords();
-
-}
+};
 
 const leftMove = (event) => getArrayHandler(event, "left");
 const rightMove = (event) => getArrayHandler(event, "right");
 const downMove = (event) => getArrayHandler(event, "down");
 const upMove = (event) => getArrayHandler(event, "up");
 
-let currTarget = '';
+let currTarget = "";
 
 let touchstartX = 0;
 let touchstartY = 0;
@@ -245,8 +241,8 @@ function updateScore(wordArray) {
   let wordscore = 0;
   console.log(newmultiplier);
   const word = wordArray[0];
-  const letters = word.split('');
-  letters.forEach(letter => {
+  const letters = word.split("");
+  letters.forEach((letter) => {
     const point = letterscore.filter((element) => {
       if (letter === element.letter) {
         return element;
@@ -262,10 +258,16 @@ function updateScore(wordArray) {
   newmultiplier = newmultiplier + 1;
 }
 
-function handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY) {
+function handleGesture(
+  currTarget,
+  touchstartX,
+  touchstartY,
+  touchendX,
+  touchendY
+) {
   const delx = touchendX - touchstartX;
   const dely = touchendY - touchstartY;
-  let dir = ''
+  let dir = "";
   if (Math.abs(delx) > Math.abs(dely)) {
     if (delx > 0) getArrayHandler(currTarget, "right");
     else getArrayHandler(currTarget, "left");
@@ -276,20 +278,27 @@ function handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchend
   }
 }
 
-gameboard.addEventListener('touchstart', function (event) {
-  event.preventDefault();
-  currTarget = event.target;
-  touchstartX = event.changedTouches[0].screenX;
-  touchstartY = event.changedTouches[0].screenY;
-}, false);
+gameboard.addEventListener(
+  "touchstart",
+  function (event) {
+    event.preventDefault();
+    currTarget = event.target;
+    touchstartX = event.changedTouches[0].screenX;
+    touchstartY = event.changedTouches[0].screenY;
+  },
+  false
+);
 
-gameboard.addEventListener('touchend', function (event) {
-  event.preventDefault();
-  touchendX = event.changedTouches[0].screenX;
-  touchendY = event.changedTouches[0].screenY;
-  handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY)
-}, false);
-
+gameboard.addEventListener(
+  "touchend",
+  function (event) {
+    event.preventDefault();
+    touchendX = event.changedTouches[0].screenX;
+    touchendY = event.changedTouches[0].screenY;
+    handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
+  },
+  false
+);
 
 function endGame(intervalID) {
   console.log(score);
@@ -298,16 +307,16 @@ function endGame(intervalID) {
   document.getElementById("score").innerHTML = "Final Score: " + score;
 
   //store score in localstorage
-  document.querySelector('#highscore span').innerHTML = setHighScore(score);
+  document.querySelector("#highscore span").innerHTML = setHighScore(score);
 
-  document.getElementById("timer").classList.remove('show');
-  document.getElementById("highscore").classList.add('show');
-  document.getElementById("start").classList.add('show');
+  document.getElementById("timer").classList.remove("show");
+  document.getElementById("highscore").classList.add("show");
+  document.getElementById("start").classList.add("show");
   // disable new game button for a second before able to retry
   document.getElementById("start").disabled = true;
   setTimeout(() => {
     document.getElementById("start").disabled = false;
-  }, 1000)
+  }, 1000);
 }
 
 function clearBoard(boardid) {
@@ -317,27 +326,27 @@ function clearBoard(boardid) {
 }
 
 function retrieveHighScore() {
-  if (localStorage.getItem('highscore')) {
-    return localStorage.getItem('highscore');
+  if (localStorage.getItem("highscore")) {
+    return localStorage.getItem("highscore");
   }
   return 0;
 }
 
 function setHighScore(score) {
   if (score > retrieveHighScore()) {
-    localStorage.setItem('highscore', score);
+    localStorage.setItem("highscore", score);
   }
-  return localStorage.getItem('highscore');
+  return localStorage.getItem("highscore");
 }
 
 function startGame() {
   score = 0;
-  document.getElementById("start").classList.remove('show');
-  document.getElementById("highscore").classList.remove('show');
-  document.getElementById("timer").classList.add('show');
+  document.getElementById("start").classList.remove("show");
+  document.getElementById("highscore").classList.remove("show");
+  document.getElementById("timer").classList.add("show");
   document.getElementById("score").innerHTML = score;
-  document.getElementById("score").classList.add('show');
+  document.getElementById("score").classList.add("show");
   init();
 }
 
-document.querySelector('#highscore span').innerHTML = retrieveHighScore();
+document.querySelector("#highscore span").innerHTML = retrieveHighScore();
