@@ -307,12 +307,14 @@ function endGame(intervalID) {
   console.log(score);
   clearBoard(gameboard);
   stopTimer(intervalID);
-  document.getElementById("score").innerHTML = "Final Score: " + score;
+  document.getElementById("finalscore").classList.add("show");
+  document.getElementById("finalscore").innerHTML = 'Final Score: ' + score;
 
   //store score in localstorage
   document.querySelector("#highscore span").innerHTML = setHighScore(score);
 
   document.getElementById("timer").classList.remove("show");
+  document.querySelector("header").classList.remove("show");
   document.getElementById("highscore").classList.add("show");
   document.getElementById("start").classList.add("show");
   document.getElementById("multiplier").innerHTML = 'x1';
@@ -347,6 +349,7 @@ function startGame() {
   score = 0;
   document.getElementById("start").classList.remove("show");
   document.getElementById("highscore").classList.remove("show");
+  document.getElementById("finalscore").classList.remove("show");
   document.querySelector("header").classList.add("show");
   document.getElementById("score").innerHTML = score;
   init();

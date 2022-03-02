@@ -137,6 +137,10 @@ main {
   animation: 0.25s win ease-out ;
 }
 
+#finalscore {
+  display:none;
+}
+
 #timer {
   font-size:3rem;
   margin:0rem;
