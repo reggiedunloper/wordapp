@@ -157,7 +157,7 @@ function arraymove(arr, fromIndex, toIndex) {
 
 const getArrayHandler = (tar, dir) => {
   const gameList = Array.from(gameboard.children);
-
+  window.navigator.vibrate(10);
   const col = getCol(gameList.indexOf(tar));
   const row = getRow(gameList.indexOf(tar));
 
@@ -238,6 +238,8 @@ let newmultiplier = 1;
 
 function updateScore(wordArray) {
   let wordscore = 0;
+
+  window.navigator.vibrate(100);
   console.log(newmultiplier);
   const word = wordArray[0];
   console.log(word);
