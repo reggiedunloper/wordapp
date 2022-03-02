@@ -64,6 +64,10 @@
         transition: 0.25s all;
       }
 
+      #board li.double {
+        background:rgba(102,255,214,0.65);
+      }
+
       #board li.win {
         animation: 0.25s win ease-out ;
       }
@@ -181,9 +185,15 @@
           });
 
           if(correctWordsR.length) {
-
+            console.log(rowItems);
+            let multiplier = 1
+            rowItems.forEach(letter => {
+              if (letter.className === 'double') {
+                multiplier = multiplier * 2;
+              }
+            });
             // update score ..add 1
-            updateScore(correctWordsR);
+            updateScore(correctWordsR, multiplier);
 
             // add win class to winning row/col
             const updGameList = gameList.map((item) => {
@@ -202,7 +212,13 @@
             setTimeout(() => {
               for(item of rowItems) {
                 randomLetter = letterArray[Math.floor(Math.random()*98)];
+
+                let multiplerClass = '';
+                if(Math.floor(Math.random()*100) < 5) {
+                  multiplerClass = 'double';
+                }
                 item.id = randomLetter;
+                item.className = multiplerClass;
                 item.innerHTML = randomLetter;
               }
             checkWords();
@@ -211,9 +227,15 @@
           }
 
           if(correctWordsC.length) {
-
+            console.log(colItems);
+            let multiplier = 1
+            colItems.forEach(letter => {
+              if (letter.className === 'double') {
+                multiplier = multiplier * 2;
+              }
+            });
             // update score ..add 1
-            updateScore(correctWordsC);
+            updateScore(correctWordsC, multiplier);
 
             // add win class to winning row/col
             const updGameList = gameList.map((item) => {
@@ -232,7 +254,13 @@
             setTimeout(() => {
               for(item of colItems) {
                 randomLetter = letterArray[Math.floor(Math.random()*98)];
+
+                let multiplerClass = '';
+                if(Math.floor(Math.random()*100) < 5) {
+                  multiplerClass = 'double';
+                }
                 item.id = randomLetter;
+                item.className = multiplerClass;
                 item.innerHTML = randomLetter;
               }
             checkWords();
@@ -277,9 +305,15 @@
 
       let gameitems = '';
         for(let i=0; i < 25; i++) {
+          // get random letter
           randomLetter = letterArray[Math.floor(Math.random()*98)];
+          // chance of double
+          let multiplerClass = '';
+          if(Math.floor(Math.random()*100) < 5) {
+            multiplerClass = 'double';
+          }
           gameitems = gameitems + `
-            <li id="${randomLetter}">${randomLetter}</li>
+            <li id="${randomLetter}" class="${multiplerClass}">${randomLetter}</li>
           `;
         }
 
@@ -357,7 +391,7 @@
 
         let gameitems = '';
         for(item of gameList) {
-          gameitems = gameitems + `<li id="item.id">${item.innerHTML}</li>`;
+          gameitems = gameitems + `<li id="${item.id}" class="${item.className}">${item.innerHTML}</li>`;
         }
 
         gameboard.innerHTML = gameitems;
@@ -381,7 +415,7 @@
     // init
     let score = 0;
 
-    function updateScore(wordArray) {
+    function updateScore(wordArray, multiplier) {
       const word = wordArray[0];
       const letters = word.split('');
       letters.forEach(letter => {
@@ -392,6 +426,8 @@
         });
         score = score + point[0].value;
       });
+      //multiplier
+      score = score * multiplier;
       document.getElementById("score").innerHTML = score;
     }
 
