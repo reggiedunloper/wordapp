@@ -121,7 +121,7 @@ function init() {
   console.log(score);
 
   let intervalid;
-  let timer = 60;
+  let timer = 90;
   startTimer(timer);
 
   let gameitems = "";
@@ -258,7 +258,7 @@ function updateScore(wordArray) {
   console.log(wordscore);
   document.getElementById("score").innerHTML = score;
   newmultiplier = newmultiplier + 1;
-  document.getElementById("multiplier").innerHTML = `( x${newmultiplier} )`;
+  document.getElementById("multiplier").innerHTML = `x${newmultiplier}`;
 }
 
 function handleGesture(
@@ -315,7 +315,7 @@ function endGame(intervalID) {
   document.getElementById("timer").classList.remove("show");
   document.getElementById("highscore").classList.add("show");
   document.getElementById("start").classList.add("show");
-  document.getElementById("multiplier").innerHTML = '';
+  document.getElementById("multiplier").innerHTML = 'x1';
   // disable new game button for a second before able to retry
   document.getElementById("start").disabled = true;
   setTimeout(() => {
@@ -347,9 +347,8 @@ function startGame() {
   score = 0;
   document.getElementById("start").classList.remove("show");
   document.getElementById("highscore").classList.remove("show");
-  document.getElementById("timer").classList.add("show");
+  document.querySelector("header").classList.add("show");
   document.getElementById("score").innerHTML = score;
-  document.getElementById("score").classList.add("show");
   init();
 }
 

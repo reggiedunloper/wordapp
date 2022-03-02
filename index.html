@@ -12,9 +12,18 @@
 
 <body>
   <main>
-    <h1 class="title">Garble</h1>
-    <h2 id="timer">1:00</h2>
-    <h1><span id="score">0</span> <span id="multiplier"></span></h1>
+    <h1 class="title">GARBLE</h1>
+    <header>
+      <div class="scorearea smarea">
+        <h2 id="score">0</h2>
+      </div>
+      <div class="timerarea">
+        <h2 id="timer">90</h2>
+      </div>
+      <div class="multiarea smarea">
+        <h2 id="multiplier">x1</h2>
+      </div>
+    </header>
     <ul id="board"></ul>
     <h3 id="highscore" class="show">High Score: <span></span></h3>
     <button onClick="startGame()" id="start" class="show">Start Game</button>
