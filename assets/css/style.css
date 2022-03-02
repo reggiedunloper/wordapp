@@ -1,0 +1,125 @@
+body {
+  margin:0;
+  padding:0;
+  background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
+  color:#fff;
+  font-family:"VT323";
+  transition: 0.25s all;
+}
+body.pulser {
+  animation: 1s pulsebg infinite;
+}
+
+h1.title {
+  font-size:4rem;
+  margin:0;
+  letter-spacing:0.2rem;
+  text-transform:uppercase;
+  text-shadow:.2rem .2rem 0rem rgba(0,0,0,.2);
+}
+
+main {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction: column;
+  width:100vw;
+  height:100%;
+  box-sizing:border-box;
+  padding:1rem 0rem;
+}
+#board {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-wrap:wrap;
+  width:350px;
+}
+
+#board li {
+  width:64px;
+  height:64px;
+  margin:2px;
+  background:rgba(0,0,0,.5);
+  border-bottom:3px solid rgba(0,0,0,.4);
+  border-radius:8px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  text-transform:uppercase;
+  font-size:2.5rem;
+  transition: 0.25s all;
+}
+
+#board li.double {
+  background:rgba(102,255,214,0.65);
+}
+
+#board li.triple {
+  background:rgba(155, 31, 238, 0.75);
+}
+
+#board li.win {
+  animation: 0.25s win ease-out ;
+}
+#timer {display:none; font-size:3rem; margin:0rem;}
+#highscore {display:none;}
+#score {display:none;}
+button#start {
+  display:none;
+  -webkit-appearance: none;
+  border-radius:8px;
+  background:#fff;
+  border:0;
+  border-bottom:3px solid rgba(0,0,0,.2);
+  box-sizing:border-box;
+  font-family:inherit;
+  padding:1rem 1rem;
+  font-size:2rem;
+  color:#3F5EFB;
+  max-width:80%;
+  width:500px;
+}
+.show {display:block !important;}
+
+#timer.pulser {
+  animation:1s pulse infinite;
+}
+
+@keyframes win {
+  from {
+    transform:scale(1.2);
+    background:#000;
+    color:#fff;
+  }
+  to {
+    transform:scale(0);
+  }
+
+}
+
+@keyframes pulse {
+  0% {
+    transform:scale(1);
+  }
+  50% {
+    transform:scale(2);
+  }
+  100% {
+    transform:scale(1);
+  }
+}
+
+@keyframes pulsebg {
+  0% {
+    background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
+  }
+  50% {
+    background: linear-gradient(0deg, #FC466B 15%, #3F5EFB 100%);
+  }
+  100% {
+    background: linear-gradient(0deg, #FC466B 0%, #3F5EFB 100%);
+  }
+}
