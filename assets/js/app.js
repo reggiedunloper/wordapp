@@ -1,16 +1,5 @@
 const gameboard = document.getElementById('board');
 
-function setMultiplier() {
-  let multiplierClass = '';
-  let randomNum = Math.floor(Math.random() * 100);
-  if (randomNum < 5) {
-    multiplierClass = 'double';
-  }
-  if (randomNum > 85) {
-    multiplierClass = 'triple';
-  }
-  return multiplierClass;
-}
 
 function checkWords() {
   const gameList = Array.from(gameboard.children);
@@ -49,17 +38,8 @@ function checkWords() {
 
     if (correctWordsR.length) {
       console.log(rowItems);
-      let multiplier = 1
-      rowItems.forEach(letter => {
-        if (letter.className === 'double') {
-          multiplier = multiplier * 2;
-        }
-        if (letter.className === 'triple') {
-          multiplier = multiplier * 3;
-        }
-      });
       // update score ..add 1
-      updateScore(correctWordsR, multiplier);
+      updateScore(correctWordsR);
 
       // add win class to winning row/col
       const updGameList = gameList.map((item) => {
@@ -80,7 +60,6 @@ function checkWords() {
           randomLetter = letterArray[Math.floor(Math.random() * 98)];
 
           item.id = randomLetter;
-          item.className = setMultiplier();
           item.innerHTML = randomLetter;
         }
         checkWords();
@@ -90,17 +69,8 @@ function checkWords() {
 
     if (correctWordsC.length) {
       console.log(colItems);
-      let multiplier = 1
-      colItems.forEach(letter => {
-        if (letter.className === 'double') {
-          multiplier = multiplier * 2;
-        }
-        if (letter.className === 'triple') {
-          multiplier = multiplier * 3;
-        }
-      });
       // update score ..add 1
-      updateScore(correctWordsC, multiplier);
+      updateScore(correctWordsC);
 
       // add win class to winning row/col
       const updGameList = gameList.map((item) => {
@@ -120,7 +90,6 @@ function checkWords() {
         for (item of colItems) {
           randomLetter = letterArray[Math.floor(Math.random() * 98)];
           item.id = randomLetter;
-          item.className = setMultiplier();
           item.innerHTML = randomLetter;
         }
         checkWords();
@@ -169,7 +138,7 @@ function init() {
     randomLetter = letterArray[Math.floor(Math.random() * 98)];
     // chance of double
     gameitems = gameitems + `
-        <li id="${randomLetter}" class="${setMultiplier()}">${randomLetter}</li>
+        <li id="${randomLetter}">${randomLetter}</li>
       `;
   }
 
@@ -270,10 +239,11 @@ let touchendY = 0;
 
 // init
 let score = 0;
+let newmultiplier = 1;
 
-function updateScore(wordArray, multiplier) {
+function updateScore(wordArray) {
   let wordscore = 0;
-  console.log(multiplier);
+  console.log(newmultiplier);
   const word = wordArray[0];
   const letters = word.split('');
   letters.forEach(letter => {
@@ -285,10 +255,11 @@ function updateScore(wordArray, multiplier) {
     wordscore = wordscore + point[0].value;
   });
   //multiplier
-  wordscore = wordscore * multiplier;
+  wordscore = wordscore * newmultiplier;
   score = score + wordscore;
   console.log(wordscore);
   document.getElementById("score").innerHTML = score;
+  newmultiplier = newmultiplier + 1;
 }
 
 function handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY) {

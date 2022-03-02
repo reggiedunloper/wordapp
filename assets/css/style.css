@@ -53,14 +53,6 @@ main {
   transition: 0.25s all;
 }
 
-#board li.double {
-  background:rgba(102,255,214,0.65);
-}
-
-#board li.triple {
-  background:rgba(155, 31, 238, 0.75);
-}
-
 #board li.win {
   animation: 0.25s win ease-out ;
 }
