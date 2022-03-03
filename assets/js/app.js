@@ -157,6 +157,10 @@ function arraymove(arr, fromIndex, toIndex) {
 
 const getArrayHandler = (tar, dir) => {
   const gameList = Array.from(gameboard.children);
+  //remove any 'current' class
+  gameList.forEach((element) => {
+    element.classList.remove('curr');
+  })
   window.navigator.vibrate(10);
   const col = getCol(gameList.indexOf(tar));
   const row = getRow(gameList.indexOf(tar));
@@ -175,6 +179,17 @@ const getArrayHandler = (tar, dir) => {
 
   let indexReplace = 0;
   let indexStart = 0;
+  // set current row or col
+  if (dir === "left" || dir === "right") {
+    rowItems.forEach((element) => {
+      element.classList.add('curr');
+    })
+  }
+  if (dir === "up" || dir === "down") {
+    colItems.forEach((element) => {
+      element.classList.add('curr');
+    })
+  }
   if (dir === "left") {
     indexStart = gameList.indexOf(rowItems[0]);
     indexReplace = gameList.indexOf(rowItems[rowItems.length - 1]);

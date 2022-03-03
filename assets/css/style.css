@@ -137,6 +137,10 @@ main {
   animation: 0.25s win ease-out ;
 }
 
+#board li.curr::before {
+  animation: 0.25s currentshow;
+}
+
 #finalscore {
   display:none;
 }
@@ -191,6 +195,18 @@ header.show {
   }
   100% {
     transform:scale(1);
+  }
+}
+
+@keyframes currentshow {
+  0% {
+    background-color:#fff;
+  }
+  50% {
+    background-color:#eef9fd;
+  }
+  100% {
+    background-color:#fff;
   }
 }
 
