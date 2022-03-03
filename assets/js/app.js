@@ -88,7 +88,7 @@ function checkWords() {
           item.innerHTML = randomLetter;
         }
         checkWords();
-      }, 250);
+      }, 300);
     }
   }
 }
