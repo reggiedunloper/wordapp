@@ -161,7 +161,9 @@ const getArrayHandler = (tar, dir) => {
   gameList.forEach((element) => {
     element.classList.remove('curr');
   })
-  window.navigator.vibrate(10);
+  if(window.navigator.vibrate) {
+    window.navigator.vibrate(10);
+  }
   const col = getCol(gameList.indexOf(tar));
   const row = getRow(gameList.indexOf(tar));
 
@@ -253,8 +255,9 @@ let newmultiplier = 1;
 
 function updateScore(wordArray) {
   let wordscore = 0;
-
-  window.navigator.vibrate(100);
+  if(window.navigator.vibrate) {
+    window.navigator.vibrate(100);
+  }
   console.log(newmultiplier);
   const word = wordArray[0];
   console.log(word);
