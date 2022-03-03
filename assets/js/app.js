@@ -114,7 +114,7 @@ function stopTimer(id) {
 }
 
 function init() {
-  document.getElementById("timer").innerHTML = "1:00";
+  document.getElementById("timer").innerHTML = "90";
 
   newmultiplier = 1;
   score = 0;
