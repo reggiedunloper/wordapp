@@ -315,6 +315,7 @@ gameboard.addEventListener(
   function (event) {
     event.preventDefault();
     console.log(event);
+    // trying to prevent repeat submissions
     if (event.target.classList) {
       if (event.target.classList.contains('win')) {
       } else {
