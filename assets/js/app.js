@@ -1,6 +1,7 @@
 const gameboard = document.getElementById("board");
 
-function checkWords() {
+function checkWords(test) {
+  console.log(test);
   const gameList = Array.from(gameboard.children);
   for (i = 0; i < 25; i += 6) {
     // for now, we are separating out rows and cols, because we need to be able to track if the correct word was in a row/column to replace the proper letters
@@ -11,6 +12,7 @@ function checkWords() {
         return item;
       }
     });
+
     // check cols
     const colItems = gameList.filter((item, index) => {
       if (getCol(index) === getCol(i)) {
@@ -36,7 +38,6 @@ function checkWords() {
 
     if (correctWordsR.length) {
       console.log(rowItems);
-      // update score ..add 1
       updateScore(correctWordsR);
 
       // add win class to winning row/col
@@ -57,14 +58,13 @@ function checkWords() {
       }, 250);
 
       // check if new letters added creates a word
-      setTimeout(() => {
-      //  checkWords();
-      }, 300);
+      // setTimeout(() => {
+      //   checkWords();
+      // }, 300);
     }
 
     if (correctWordsC.length) {
       console.log(colItems);
-      // update score ..add 1
       updateScore(correctWordsC);
 
       // add win class to winning row/col
@@ -84,9 +84,9 @@ function checkWords() {
         }
       }, 250);
 
-      setTimeout(() => {
-      //  checkWords();
-      }, 300);
+      // setTimeout(() => {
+      //   checkWords();
+      // }, 300);
     }
   }
 }
@@ -232,7 +232,7 @@ const getArrayHandler = (tar, dir) => {
 
   gameboard.innerHTML = gameitems;
 
-  checkWords();
+  checkWords("fromgetarrayhandler");
 };
 
 const leftMove = (event) => getArrayHandler(event, "left");
