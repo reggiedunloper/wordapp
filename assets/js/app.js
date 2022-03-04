@@ -1,7 +1,6 @@
 const gameboard = document.getElementById("board");
 
-function checkWords(test) {
-  console.log(test);
+function checkWords() {
   const gameList = Array.from(gameboard.children);
   for (i = 0; i < 25; i += 6) {
     // for now, we are separating out rows and cols, because we need to be able to track if the correct word was in a row/column to replace the proper letters
@@ -44,17 +43,18 @@ function checkWords(test) {
       const updGameList = gameList.map((item) => {
         if (rowItems.includes(item)) {
           item.classList.add("win");
-          item.innerHTML = randomLetter;
+          //remove letter so it doesn't duplicate a score
+          item.innerHTML = '';
         }
       });
 
       // delay new letters added for animation
       setTimeout(() => {
         for (item of rowItems) {
-          randomLetter = letterArray[Math.floor(Math.random() * 98)];
-          item.id = randomLetter;
+          const letter = randomLetter(letterArray);
+          item.id = letter;
           item.classList.remove("win");
-          item.innerHTML = randomLetter;
+          item.innerHTML = letter;
         }
       }, 250);
 
@@ -81,10 +81,10 @@ function checkWords(test) {
       // having this timeout is allowing the row to score mulitple times.
       setTimeout(() => {
         for (item of colItems) {
-          randomLetter = letterArray[Math.floor(Math.random() * 98)];
-          item.id = randomLetter;
+          const letter = randomLetter(letterArray);
+          item.id = letter;
           item.classList.remove("win");
-          item.innerHTML = randomLetter;
+          item.innerHTML = letter;
         }
       }, 250);
 
@@ -129,32 +129,16 @@ function init() {
   let gameitems = "";
   for (let i = 0; i < 25; i++) {
     // get random letter
-    randomLetter = letterArray[Math.floor(Math.random() * 98)];
+    let letter = randomLetter(letterArray);
     // chance of double
     gameitems =
       gameitems +
       `
-        <li id="${randomLetter}">${randomLetter}</li>
+        <li id="${letter}">${letter}</li>
       `;
   }
 
   gameboard.innerHTML = gameitems;
-}
-
-const getCol = (val) => {
-  const col = (val % 5) + 1;
-  return col;
-};
-
-const getRow = (val) => {
-  const row = Math.floor(val / 5);
-  return row;
-};
-
-function arraymove(arr, fromIndex, toIndex) {
-  var element = arr[fromIndex];
-  arr.splice(fromIndex, 1);
-  arr.splice(toIndex, 0, element);
 }
 
 const getArrayHandler = (tar, dir) => {
@@ -237,7 +221,7 @@ const getArrayHandler = (tar, dir) => {
 
   gameboard.innerHTML = gameitems;
 
-  checkWords("fromgetarrayhandler");
+  checkWords();
 };
 
 const leftMove = (event) => getArrayHandler(event, "left");
@@ -359,26 +343,6 @@ function endGame(intervalID) {
   setTimeout(() => {
     document.getElementById("start").disabled = false;
   }, 1000);
-}
-
-function clearBoard(boardid) {
-  while (boardid.firstChild) {
-    boardid.removeChild(boardid.firstChild);
-  }
-}
-
-function retrieveHighScore() {
-  if (localStorage.getItem("highscore")) {
-    return localStorage.getItem("highscore");
-  }
-  return 0;
-}
-
-function setHighScore(score) {
-  if (score > retrieveHighScore()) {
-    localStorage.setItem("highscore", score);
-  }
-  return localStorage.getItem("highscore");
 }
 
 function startGame() {
