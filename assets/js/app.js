@@ -314,9 +314,21 @@ gameboard.addEventListener(
   "touchend",
   function (event) {
     event.preventDefault();
-    touchendX = event.changedTouches[0].screenX;
-    touchendY = event.changedTouches[0].screenY;
-    handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
+    console.log(event);
+    if (event.target.classList) {
+      if (event.target.classList.contains('win')) {
+      } else {
+        console.log(event.target);
+        touchendX = event.changedTouches[0].screenX;
+        touchendY = event.changedTouches[0].screenY;
+        handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
+      }
+    } else {
+      console.log(event.target);
+      touchendX = event.changedTouches[0].screenX;
+      touchendY = event.changedTouches[0].screenY;
+      handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
+    }
   },
   false
 );
