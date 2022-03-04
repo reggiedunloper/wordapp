@@ -58,7 +58,7 @@ function checkWords() {
 
       // check if new letters added creates a word
       setTimeout(() => {
-        checkWords();
+      //  checkWords();
       }, 300);
     }
 
@@ -77,17 +77,15 @@ function checkWords() {
       //set timeout to replace items.
       setTimeout(() => {
         for (item of colItems) {
+          randomLetter = letterArray[Math.floor(Math.random() * 98)];
+          item.id = randomLetter;
           item.classList.remove("win");
+          item.innerHTML = randomLetter;
         }
       }, 250);
 
       setTimeout(() => {
-        for (item of colItems) {
-          randomLetter = letterArray[Math.floor(Math.random() * 98)];
-          item.id = randomLetter;
-          item.innerHTML = randomLetter;
-        }
-        checkWords();
+      //  checkWords();
       }, 300);
     }
   }
@@ -316,19 +314,21 @@ gameboard.addEventListener(
     event.preventDefault();
     console.log(event);
     // trying to prevent repeat submissions
-    if (event.target.classList) {
-      if (event.target.classList.contains('win')) {
+    if (event.target.nodeName.toLowerCase() !== 'ul') {
+      if (event.target.classList) {
+        if (event.target.classList.contains('win')) {
+        } else {
+          console.log(event.target);
+          touchendX = event.changedTouches[0].screenX;
+          touchendY = event.changedTouches[0].screenY;
+          handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
+        }
       } else {
         console.log(event.target);
         touchendX = event.changedTouches[0].screenX;
         touchendY = event.changedTouches[0].screenY;
         handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
       }
-    } else {
-      console.log(event.target);
-      touchendX = event.changedTouches[0].screenX;
-      touchendY = event.changedTouches[0].screenY;
-      handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
     }
   },
   false
