@@ -158,6 +158,7 @@ const getArrayHandler = (tar, dir) => {
   //remove any 'current' class
   gameList.forEach((element) => {
     element.classList.remove('curr');
+    element.classList.remove('win');
   })
   if(window.navigator.vibrate) {
     window.navigator.vibrate(10);
