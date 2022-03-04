@@ -55,13 +55,10 @@ function checkWords() {
           item.id = letter;
           item.classList.remove("win");
           item.innerHTML = letter;
+          checkWords();
         }
       }, 250);
 
-      // check if new letters added creates a word
-      setTimeout(() => {
-        checkWords();
-      }, 300);
     }
 
     if (correctWordsC.length) {
@@ -85,12 +82,10 @@ function checkWords() {
           item.id = letter;
           item.classList.remove("win");
           item.innerHTML = letter;
+          checkWords();
         }
       }, 250);
 
-      setTimeout(() => {
-        checkWords();
-      }, 300);
     }
   }
 }
@@ -143,10 +138,20 @@ function init() {
 
 const getArrayHandler = (tar, dir) => {
   const gameList = Array.from(gameboard.children);
-  //remove any 'current' class
+  // remove any 'current' class
+  // if win is still set, remove it.
+  // if a letter is blank, add a new letter to it
+  // I believe this is occuring because the stack is going to fast to update
+  // from setTimeouts going on in the checkWord() function.
   gameList.forEach((element) => {
     element.classList.remove('curr');
     element.classList.remove('win');
+    // if letter is blank
+    if(element.innerHTML === '') {
+      let letter = randomLetter(letterArray);
+      element.id = letter;
+      element.innerHTML = letter;
+    }
   })
   if(window.navigator.vibrate) {
     window.navigator.vibrate(10);
