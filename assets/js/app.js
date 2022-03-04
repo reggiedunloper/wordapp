@@ -115,7 +115,6 @@ function init() {
 
   newmultiplier = 1;
   score = 0;
-  console.log(score);
 
   let intervalid;
   let timer = 90;
@@ -250,9 +249,7 @@ function updateScore(wordArray) {
   if(window.navigator.vibrate) {
     window.navigator.vibrate(100);
   }
-  console.log(newmultiplier);
   const word = wordArray[0];
-  console.log(word);
   const letters = word.split("");
   letters.forEach((letter) => {
     const point = letterscore.filter((element) => {
@@ -264,8 +261,8 @@ function updateScore(wordArray) {
   });
   //multiplier
   wordscore = wordscore * newmultiplier;
+  highlightCorrectWord(word, wordscore);
   score = score + wordscore;
-  console.log(wordscore);
   document.getElementById("score").innerHTML = score;
   newmultiplier = newmultiplier + 1;
   document.getElementById("multiplier").innerHTML = `x${newmultiplier}`;
@@ -306,19 +303,16 @@ gameboard.addEventListener(
   "touchend",
   function (event) {
     event.preventDefault();
-    console.log(event);
     // trying to prevent repeat submissions
     if (event.target.nodeName.toLowerCase() !== 'ul') {
       if (event.target.classList) {
         if (event.target.classList.contains('win')) {
         } else {
-          console.log(event.target);
           touchendX = event.changedTouches[0].screenX;
           touchendY = event.changedTouches[0].screenY;
           handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);
         }
       } else {
-        console.log(event.target);
         touchendX = event.changedTouches[0].screenX;
         touchendY = event.changedTouches[0].screenY;
         handleGesture(currTarget, touchstartX, touchstartY, touchendX, touchendY);

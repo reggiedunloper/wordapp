@@ -177,6 +177,57 @@ header.show {
   animation:1s pulse infinite;
 }
 
+.toast {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content:center;
+  width: 100%;
+  opacity:0;
+  transform: translateY(-5rem);
+  transition:0.2s all;
+}
+
+.toast.pop {
+  transform: translateY(1rem);
+  opacity:1;
+}
+
+.toast .toast-content {
+  background: #ffffff;
+  border-radius: 7px;
+  padding: 9px 15px 6px 15px;
+  color: #000;
+  min-width: 200px;
+  font-family: system-ui;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: .3rem;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  box-shadow: 0px 4px 10px rgb(0 0 0 / 30%);
+  border-bottom: 3px solid rgb(217 235 242);
+}
+.toast .toast-content span {
+  display: block;
+  right: 0;
+  letter-spacing: normal;
+  font-size: 1rem;
+  background: rgb(217 235 242);
+  color: #618edf;
+  padding: 0.2rem 0.4rem;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
 @keyframes win {
   from {
     transform:scale(1.2);
