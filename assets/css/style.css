@@ -17,6 +17,7 @@ h1.title {
   text-transform:uppercase;
   text-shadow:.2rem .2rem 0rem rgba(0,0,0,.2);
   display:none;
+  margin-top:3rem;
 }
 
 header {
@@ -24,7 +25,7 @@ header {
   width:100%;
   justify-content:space-between;
   display:none;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .smarea {
