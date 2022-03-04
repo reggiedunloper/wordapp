@@ -333,6 +333,7 @@ function endGame(intervalID) {
   document.querySelector("#highscore span").innerHTML = setHighScore(score);
 
   document.getElementById("timer").classList.remove("show");
+  document.querySelector(".title").classList.add("show");
   document.querySelector("header").classList.remove("show");
   document.getElementById("highscore").classList.add("show");
   document.getElementById("start").classList.add("show");
@@ -347,6 +348,7 @@ function endGame(intervalID) {
 function startGame() {
   score = 0;
   document.getElementById("start").classList.remove("show");
+  document.querySelector(".title").classList.remove("show");
   document.getElementById("highscore").classList.remove("show");
   document.getElementById("finalscore").classList.remove("show");
   document.querySelector("header").classList.add("show");

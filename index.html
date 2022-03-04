@@ -5,14 +5,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
     <link href="assets/css/style.css" rel="stylesheet" type="text/css">
   </head>
 
 <body>
   <main>
-    <h1 class="title">GARBLE</h1>
+    <h1 class="title show">GARBLE</h1>
     <header>
       <div class="scorearea smarea">
         <h2 id="score">0</h2>
@@ -25,7 +24,14 @@
       </div>
     </header>
     <h1 id="finalscore"></h1>
-    <ul id="board"></ul>
+    <div id="gamearea">
+      <ul id="board"></ul>
+      <!-- <div class="toast pop">
+        <div class="toast-content">
+          pears <span>+25</span>
+        </div>
+      </div> -->
+    </div>
     <h3 id="highscore" class="show">High Score: <span></span></h3>
     <button onClick="startGame()" id="start" class="show">New Game</button>
   </main>
@@ -35,11 +41,7 @@
   <script src="assets/js/helpers.js"></script>
   <script src="assets/js/app.js"></script>
 
-  <!-- <div class="toast pop">
-    <div class="toast-content">
-      pears <span>+25</span>
-    </div>
-  </div> -->
+
 </body>
 
 </html>

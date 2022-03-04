@@ -17,7 +17,7 @@ function highlightCorrectWord(word, points) {
   const toast = document.createElement('div');
   toast.classList.add('toast');
   toast.innerHTML = `<div class="toast-content">${word} <span>+${points}</span></div>`;
-  document.body.appendChild(toast);
+  document.getElementById("gamearea").appendChild(toast);
 
   // add pop class to show toast
   setTimeout(function() {
