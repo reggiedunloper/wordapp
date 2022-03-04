@@ -135,6 +135,7 @@ main {
 
 #board li.win {
   animation: 0.25s win ease-out ;
+  pointer-events:none;
 }
 
 #board li.curr::before {
