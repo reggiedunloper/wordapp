@@ -44,6 +44,7 @@ function checkWords(test) {
       const updGameList = gameList.map((item) => {
         if (rowItems.includes(item)) {
           item.classList.add("win");
+          item.innerHTML = randomLetter;
         }
       });
 
@@ -58,9 +59,9 @@ function checkWords(test) {
       }, 250);
 
       // check if new letters added creates a word
-      // setTimeout(() => {
-      //   checkWords();
-      // }, 300);
+      setTimeout(() => {
+        checkWords();
+      }, 300);
     }
 
     if (correctWordsC.length) {
@@ -71,10 +72,13 @@ function checkWords(test) {
       const updGameList = gameList.map((item) => {
         if (colItems.includes(item)) {
           item.classList.add("win");
+          //remove letter so it doesn't duplicate a score
+          item.innerHTML = '';
         }
       });
 
       //set timeout to replace items.
+      // having this timeout is allowing the row to score mulitple times.
       setTimeout(() => {
         for (item of colItems) {
           randomLetter = letterArray[Math.floor(Math.random() * 98)];
@@ -84,9 +88,9 @@ function checkWords(test) {
         }
       }, 250);
 
-      // setTimeout(() => {
-      //   checkWords();
-      // }, 300);
+      setTimeout(() => {
+        checkWords();
+      }, 300);
     }
   }
 }
