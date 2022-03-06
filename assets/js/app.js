@@ -205,12 +205,13 @@ const getArrayHandler = (tar, dir) => {
     }
   }
   if (dir === "up") {
-    for (let i = 0; i < colItems.length; i++) {
-      indexStart = gameList.indexOf(colItems[i]);
-      if (indexStart + i - 5 < 0) {
-        indexReplace = gameList.length - 5 + indexStart;
+    // reverse of down
+    for (const item of colItems.reverse()) {
+      indexStart = gameList.indexOf(item);
+      if (indexStart - 5 <= 0) {
+        indexReplace = indexStart - 5 + gameList.length;
       } else {
-        indexReplace = indexStart + 1 - 5;
+        indexReplace = indexStart - 5;
       }
       arraymove(gameList, indexStart, indexReplace);
     }

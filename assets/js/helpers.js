@@ -1,5 +1,5 @@
 function getCol(val) {
-  const col = (val % 5) + 1;
+  const col = (val % 5);
   return col;
 };
 
